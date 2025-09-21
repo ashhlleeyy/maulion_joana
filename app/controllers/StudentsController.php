@@ -20,39 +20,127 @@ class StudentsController extends Controller {
         $this->call->view('get_all', $data);
     }*/
 
-   public function create() {
-        //$data = array (
-           // 'first_name' => 'Maulion',
-             //'last_name' => 'Joana',
-           // 'emails' => 'joanamaulion@gmail.com',
-       // ); 
-        //$this->StudentsModel->insert($data);
-        if($this->form_validation->submitted()){
-             $first_name = $this->io->post('first_name');
-            $last_name = $this->io->post('last_name');
-            $emails = $this->io->post('email');
+  public function create() {
+    requireLogin(); // 🔐 check authentication
 
-            $this->StudentsModel->create($first_name, $last_name, $emails);
+    if ($this->form_validation->submitted()) {
+        $errors = [];
 
+        // Validate required fields
+        $first_name = trim($this->io->post('first_name'));
+        $last_name  = trim($this->io->post('last_name'));
+        $emails     = trim($this->io->post('email'));
+
+        if (empty($first_name)) $errors[] = "First name is required.";
+        if (empty($last_name))  $errors[] = "Last name is required.";
+        if (empty($emails) || !filter_var($emails, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "A valid email is required.";
         }
-       
-         $this->call->view('create');
-    }
-   function update($id) {
-        $student = $this->StudentsModel->find($id);
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = [
-                'first_name' => $_POST['first_name'],
-                'last_name'  => $_POST['last_name'],
-                'email'      => $_POST['email']
-            ];
-            $this->StudentsModel->update($id, $data);
-            redirect('get_all');
-        }
-        $this->call->view('/update', ['student' => $student]);
 
+        $profile_pic = null;
+
+        // Handle profile picture upload
+        if (!empty($_FILES['profile_pic']['name'])) {
+            $upload_dir = __DIR__ . '/../../upload/students/';
+            if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+
+            $file_tmp  = $_FILES['profile_pic']['tmp_name'];
+            $file_name = time() . "_" . basename($_FILES['profile_pic']['name']);
+            $target    = $upload_dir . $file_name;
+
+            $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!in_array($_FILES['profile_pic']['type'], $allowed_types)) {
+                $errors[] = "Only JPG, PNG, GIF files are allowed.";
+            } elseif (!move_uploaded_file($file_tmp, $target)) {
+                $errors[] = "❌ Failed to upload file.";
+            } else {
+                $profile_pic = $file_name;
+            }
+        }
+
+        // If validation fails → reload form with errors
+        if (!empty($errors)) {
+            $this->call->view('create', ['errors' => $errors]);
+            return;
+        }
+
+        // Save data into DB
+        $data = [
+            'first_name'  => $first_name,
+            'last_name'   => $last_name,
+            'email'      => $emails,
+            'profile_pic' => $profile_pic
+        ];
+
+        $this->StudentsModel->insert($data);
+        redirect('get_all');
     }
-    function delete($id) {
+
+    $this->call->view('create');
+}
+   
+public function update($id) {
+    requireLogin(); // 🔐 check authentication
+    $student = $this->StudentsModel->find($id);
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $errors = [];
+
+        // Validate fields
+        $first_name = trim($_POST['first_name']);
+        $last_name  = trim($_POST['last_name']);
+        $emails     = trim($_POST['email']);
+
+        if (empty($first_name)) $errors[] = "First name is required.";
+        if (empty($last_name))  $errors[] = "Last name is required.";
+        if (empty($emails) || !filter_var($emails, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "A valid email is required.";
+        }
+
+        $data = [
+            'first_name'  => $first_name,
+            'last_name'   => $last_name,
+            'email'      => $emails,
+            'profile_pic' => $student['profile_pic'] // keep old picture by default
+        ];
+
+        // Handle new upload if provided
+        if (!empty($_FILES['profile_pic']['name'])) {
+            $upload_dir = __DIR__ . '/../../upload/students/';
+            if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+
+            $file_tmp  = $_FILES['profile_pic']['tmp_name'];
+            $file_name = time() . "_" . basename($_FILES['profile_pic']['name']);
+            $target    = $upload_dir . $file_name;
+
+            $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!in_array($_FILES['profile_pic']['type'], $allowed_types)) {
+                $errors[] = "Only JPG, PNG, GIF files are allowed.";
+            } elseif (!move_uploaded_file($file_tmp, $target)) {
+                $errors[] = "❌ Failed to upload file.";
+            } else {
+                // Delete old file
+                if (!empty($student['profile_pic']) && file_exists($upload_dir . $student['profile_pic'])) {
+                    unlink($upload_dir . $student['profile_pic']);
+                }
+                $data['profile_pic'] = $file_name;
+            }
+        }
+
+        // If validation fails → reload form with errors
+        if (!empty($errors)) {
+            $this->call->view('/update', ['student' => $student, 'errors' => $errors]);
+            return;
+        }
+
+        $this->StudentsModel->update($id, $data);
+        redirect('get_all');
+    }
+
+    $this->call->view('/update', ['student' => $student]);
+}
+
+function delete($id) {
          $this->StudentsModel->delete($id);
          redirect('get_all');
     }
@@ -135,4 +223,65 @@ public function search()
     }
 }
 
+
+ // Require login function (put this in a helper or base controller)
+function requireLogin() {
+    if (!isset($_SESSION['user_id'])) {
+        redirect('login'); // redirect to login page
+        exit;
+    }
+}
+
+public function login() {
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']);
+
+        // Get user from DB
+        $user = $this->StudentsModel->findByUsername($username);
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            redirect('get_all'); // go to students page
+        } else {
+            $this->call->view('login', ['error' => 'Invalid username or password']);
+            return;
+        }
+    }
+
+    $this->call->view('login');
+}
+public function register() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']);
+        $confirm  = trim($_POST['confirm_password']);
+
+        // Basic validation
+        if (empty($username) || empty($password)) {
+            $this->call->view('register', ['error' => '❌ All fields are required']);
+            return;
+        }
+        if ($password !== $confirm) {
+            $this->call->view('register', ['error' => '❌ Passwords do not match']);
+            return;
+        }
+
+        // Hash the password
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+        // Save into DB
+        $this->StudentsModel->insert1([
+            'username' => $username,
+            'password' => $hashed
+        ]);
+
+        // Redirect to login
+        redirect('login');
+    }
+
+    $this->call->view('register');
+}
 }

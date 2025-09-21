@@ -29,11 +29,11 @@ class StudentsController extends Controller {
         // Validate required fields
         $first_name = trim($this->io->post('first_name'));
         $last_name  = trim($this->io->post('last_name'));
-        $emails     = trim($this->io->post('email'));
+        $email     = trim($this->io->post('email'));
 
         if (empty($first_name)) $errors[] = "First name is required.";
         if (empty($last_name))  $errors[] = "Last name is required.";
-        if (empty($emails) || !filter_var($emails, FILTER_VALIDATE_EMAIL)) {
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = "A valid email is required.";
         }
 
@@ -89,11 +89,11 @@ public function update($id) {
         // Validate fields
         $first_name = trim($_POST['first_name']);
         $last_name  = trim($_POST['last_name']);
-        $emails     = trim($_POST['email']);
+        $email     = trim($_POST['email']);
 
         if (empty($first_name)) $errors[] = "First name is required.";
         if (empty($last_name))  $errors[] = "Last name is required.";
-        if (empty($emails) || !filter_var($emails, FILTER_VALIDATE_EMAIL)) {
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors[] = "A valid email is required.";
         }
 

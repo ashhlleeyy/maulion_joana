@@ -1,6 +1,9 @@
-{
-    "require": {
-        "php": ">=7.4"
-    }
 
+{
+  "name": "kevin/lavalust-crud",
+  "description": "LavaLust CRUD web app with FreeSQLDatabase deployment",
+  "type": "project",
+  "require": {
+    "php": "^8.0"
+  }
 }

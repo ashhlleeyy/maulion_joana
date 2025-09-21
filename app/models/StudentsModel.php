@@ -24,7 +24,7 @@ class StudentsModel extends Model {
         return $this->db->table('students')->insert($data);
     }   
 
-    /*public function get_one($id){
+    public function get_one($id){
        return $this->db->table('students')->where('id', $id)->get();
     }
 
@@ -37,7 +37,7 @@ class StudentsModel extends Model {
         $sql = "SELECT COUNT({$this->primary_key}) as total FROM {$this->table} WHERE 1=1";
         $result = $this->db->raw($sql);
         return $result ? $result->fetch(PDO::FETCH_ASSOC)['total'] : 0;
-    }*/
+    }
 
     public function get_records_with_pagination($limit_clause)
     {

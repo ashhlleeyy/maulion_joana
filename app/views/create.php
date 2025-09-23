@@ -1,139 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Student</title>
-  <style>
-  :root {
-    --bg:#c7b7b1;
-    --panel:#e0d6d2;
-    --muted:#a89288;
-    --muted-2:#8b6f65;
-    --text:#2c1d19;
-    --text-dim:#4a322d;
-    --primary:#73574e;
-    --primary-2:#5a3f36;
-    --radius:16px;
-    --shadow:0 10px 25px rgba(0,0,0,.3);
-  }
-  * { box-sizing:border-box; }
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Form - Burgundy & Grey Theme</title>
+<style>
   body {
-    margin:0;
-    min-height:100svh;
-    display:grid;
-    place-items:center;
-    background:linear-gradient(180deg,var(--bg),#bca9ad 60%);
-    color:var(--text);
-    font:14px/1.5 "Poppins", sans-serif;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #5a2a2a 0%, #3b1f1f 35%, #2c2c2c 70%, #1a1a1a 100%);
+    /* Burgundy → dark burgundy → grey-black gradient */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
   }
 
-  .card {
-    width:min(400px,90vw);
-    background:linear-gradient(180deg,var(--panel),#c7b7b1);
-    border:1px solid rgba(0,0,0,.08);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-    padding:20px;
+  /* Glowing accents */
+  body::before, body::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(180px);
+    opacity: 0.25;
+    z-index: 0;
+  }
+
+  body::before {
+    width: 500px;
+    height: 500px;
+    background: #800020; /* rich burgundy glow */
+    top: -150px;
+    left: -180px;
+  }
+
+  body::after {
+    width: 450px;
+    height: 450px;
+    background: #4b4b4b; /* grey glow */
+    bottom: -150px;
+    right: -180px;
+  }
+
+  form {
+    background-color: rgba(255,255,255,0.97);
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.25);
+    width: 360px;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(10px);
   }
 
   h2 {
-    margin:0 0 14px;
-    font-size:clamp(22px,3vw,28px);
-    text-align:center;
-    color:var(--primary);
-    font-weight:600;
+    text-align: center;
+    color: #800020; /* burgundy */
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
   }
 
-  form { display:grid; gap:12px; }
-
-  label { 
-    font-size:13px; 
-    color:var(--text-dim); 
-    font-weight:500;
+  label {
+    display: block;
+    margin-bottom: 6px;
+    color: #374151;
+    font-weight: bold;
+    font-size: 14px;
   }
 
-  input[type="text"], input[type="email"] {
-    width:100%;
-    max-width:100%;
-    padding:10px;
-    border-radius:8px;
-    border:1px solid var(--muted-2);
-    background:var(--muted);
-    color:var(--text);
-    font-size:14px;
-    font-family:"Poppins", sans-serif;
+  input[type="text"],
+  input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+    background-color: #f9fafb;
+    transition: 0.3s;
+    font-size: 14px;
   }
 
-  input:focus {
-    outline:2px solid var(--primary);
-    border-color:var(--primary-2);
+  input[type="text"]:focus,
+  input[type="email"]:focus {
+    border-color: #800020;
+    background-color: #ffffff;
+    box-shadow: 0 0 6px rgba(128,0,32,0.4);
   }
 
-  /* Buttons container */
+  input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #800020, #4b4b4b);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 15px;
+  }
+
+  input[type="submit"]:hover {
+    background: linear-gradient(90deg, #a83246, #2e2e2e);
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(128,0,32,0.4);
+  }
+
   .actions {
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
-    margin-top:10px;
-  }
-
-  .btn {
-    padding:8px 14px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:13px;
-    font-weight:600;
-    transition:transform .15s, opacity .15s;
-  }
-  .btn:hover { transform:translateY(-1px); }
-
-  .btn-submit { 
-    background:linear-gradient(180deg,var(--primary),var(--primary-2)); 
-    color:#fff;
-    min-width:120px;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 10px 0;
+    position: relative;
+    z-index: 10;
   }
 
   .back-link {
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    text-decoration:none;
-    font-weight:500;
-    padding:8px 12px;
-    border-radius:10px;
-    background:var(--muted-2);
-    transition:opacity .15s;
+    text-decoration: none;
+    background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+    color: #800020;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 2px solid #800020;
+    border-radius: 25px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
-  .back-link:hover { opacity:.85; }
-  </style>
 
+  .back-link:hover {
+    background: linear-gradient(135deg, #800020, #6b7280);
+    color: white;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  }
+
+  .back-link:active {
+    transform: scale(0.95);
+  }
+</style>
 </head>
 <body>
-  <div class="card">
-    <h2>Add Student</h2>
-    <form action="<?=site_url('/create');?>" method="POST">
-      <div>
-        <label for="first_name">First Name</label>
-        <input type="text" id="first_name" name="first_name" placeholder="Your first name" required>
-      </div>
-      <div>
-        <label for="last_name">Last Name</label>
-        <input type="text" id="last_name" name="last_name" placeholder="Your last name" required>
-      </div>
-      <div>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="you@example.com" required>
-      </div>
 
-      <div class="actions">
-        <button type="submit" class="btn btn-submit">Save</button>
-        <a class="back-link" href="get_all">Back to Records </a>
-      </div>
-    </form>
+<form action="<?=site_url('/create');?>" method="POST" enctype="multipart/form-data">
+  <h2>Student Information</h2>
+
+  <?php if (!empty($errors)): ?>
+    <div style="color:red;">
+        <ul>
+            <?php foreach ($errors as $e): ?>
+                <li><?= htmlspecialchars($e) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+  <label for="first_name">First Name</label>
+  <input type="text" id="first_name" name="first_name" placeholder="Your first name">
+
+  <label for="last_name">Last Name</label>
+  <input type="text" id="last_name" name="last_name" placeholder="Your last name">
+
+  <label for="email">Email</label>
+  <input type="email" id="email" name="email" placeholder="you@example.com">
+
+   <label for="profile_pic">Upload File</label>
+  <input type="file" id="profile_pic" name="profile_pic">
+
+  <input type="submit" value="Submit">
+
+  <div class="actions">
+    <a class="back-link" href="<?=site_url('get_all')?>">
+      ⬅ Back to Students
+    </a>
   </div>
+</form>
 </body>
 </html>
+      

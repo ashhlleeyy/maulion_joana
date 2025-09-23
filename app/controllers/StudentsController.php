@@ -68,8 +68,15 @@ class StudentsController extends Controller {
         redirect('get_all/1?error=' . $error_msg);
     }
 }
+    // Require login function (put this in a helper or base controller)
+function requireLogin() {
+    if (!isset($_SESSION['user_id'])) {
+        redirect('login'); // redirect to login page
+        exit;
+    }
+}
 
-  public function create() {
+public function create() {
     requireLogin(); // 🔐 check authentication
 
     if ($this->form_validation->submitted()) {
@@ -226,13 +233,13 @@ public function search()
 }
 
 
- // Require login function (put this in a helper or base controller)
+   /* // Require login function (put this in a helper or base controller)
 function requireLogin() {
     if (!isset($_SESSION['user_id'])) {
         redirect('login'); // redirect to login page
         exit;
     }
-}
+}*/
 
 public function login() {
 

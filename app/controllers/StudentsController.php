@@ -124,7 +124,7 @@ public function create() {
         $data = [
             'first_name'  => $first_name,
             'last_name'   => $last_name,
-            'email'      => $emails,
+            'email'      => $email,
             'profile_pic' => $profile_pic
         ];
 
@@ -156,7 +156,7 @@ public function update($id) {
         $data = [
             'first_name'  => $first_name,
             'last_name'   => $last_name,
-            'email'      => $emails,
+            'email'      => $email,
             'profile_pic' => $student['profile_pic'] // keep old picture by default
         ];
 

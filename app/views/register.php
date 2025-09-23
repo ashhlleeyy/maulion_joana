@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
-  <style>
+<style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #2d2d2d, #4b4b4b); /* Dark grey gradient */
+    background: linear-gradient(135deg, #3e2c20, #5c4033); /* Dark brown gradient */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,7 +29,7 @@
   body::before {
     width: 500px;
     height: 500px;
-    background: #800020; /* Burgundy glow */
+    background: #4e2a1e; /* Dark brown glow */
     top: -60px;
     left: -120px;
   }
@@ -37,7 +37,7 @@
   body::after {
     width: 450px;
     height: 450px;
-    background: #4b1c2f; /* Dark burgundy */
+    background: #8b5e3c; /* Light brown */
     bottom: -80px;
     right: -100px;
   }
@@ -59,7 +59,7 @@
     margin-bottom: 20px;
     font-size: 26px;
     font-weight: 700;
-    color: #800020;
+    color: #4e2a1e; /* Dark brown */
   }
 
   label {
@@ -83,15 +83,15 @@
   }
 
   input:focus {
-    border-color: #800020;
+    border-color: #8b5e3c;
     background: #fff;
-    box-shadow: 0 0 6px rgba(128,0,32,0.3);
+    box-shadow: 0 0 6px rgba(139,94,60,0.3);
   }
 
   button {
     width: 100%;
     padding: 12px;
-    background: #800020;
+    background: #4e2a1e; /* Dark brown */
     color: white;
     font-size: 16px;
     font-weight: 600;
@@ -103,12 +103,12 @@
   }
 
   button:hover {
-    background: #a83246;
+    background: #8b5e3c; /* Light brown hover */
     transform: translateY(-2px);
   }
 
   .error {
-    color: red;
+    color: #8b0000; /* Deep red for errors */
     text-align: center;
     margin-bottom: 10px;
     font-size: 14px;
@@ -121,7 +121,7 @@
   }
 
   p a {
-    color: #800020;
+    color: #4e2a1e;
     font-weight: 600;
     text-decoration: none;
   }
@@ -135,7 +135,8 @@
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  </style>
+</style>
+
 </head>
 <body>
   <div class="form-container">

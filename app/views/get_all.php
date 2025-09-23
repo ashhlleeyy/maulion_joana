@@ -3,272 +3,318 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Records</title>
+  <title>Student's Information</title>
   <style>
-    :root {
-      --bg:#c7b7b1;
-      --panel:#e0d6d2;
-      --muted:#a89288;
-      --muted-2:#8b6f65;
-      --text:#2c1d19;
-      --text-dim:#4a322d;
-      --primary:#73574e;
-      --primary-2:#5a3f36;
-      --danger:#b71c1c;
-      --success:#2e7d32;
-      --radius:12px;
-      --shadow:0 6px 18px rgba(0,0,0,.25);
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #2d2d2d, #4b4b4b); /* Dark grey gradient */
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+  }
+
+  body::before, body::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.55;
+    z-index: 0;
+  }
+
+  body::before {
+    width: 500px;
+    height: 500px;
+    background: #800020; /* Burgundy glow */
+    top: -60px;
+    left: -120px;
+  }
+
+  body::after {
+    width: 450px;
+    height: 450px;
+    background: #4b1c2f; /* Dark burgundy */
+    bottom: -80px;
+    right: -100px;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 1100px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .header h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #f3f4f6; /* Light grey text */
+    margin: 0;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .btn-add {
+    background: #800020;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn-add:hover {
+    background: #a83246;
+    transform: translateY(-2px);
+  }
+
+  .id{
+      padding-left: 45px;
     }
 
-    * { box-sizing:border-box; }
+  /* Search Box */
+  .search-box input {
+    padding: 10px 14px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 1px solid #9ca3af;
+    outline: none;
+    width: 220px;
+    transition: 0.3s;
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
 
-    body {
-      margin:0;
-      height:100vh;
-      width:100vw;
-      display:flex;
-      flex-direction:column;
-      background:linear-gradient(180deg,var(--bg),#bca9ad 90%);
-      color:var(--text);
-      font:14px/1.5 "Segoe UI", "Playfair Display", Georgia, serif;
-    }
+  .search-box input:focus {
+    border-color: #800020;
+    box-shadow: 0 2px 8px rgba(128,0,32,0.3);
+  }
 
-    .screen {
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      padding:24px;
-      background:linear-gradient(180deg,var(--panel),#c7b7b1);
-      border:1px solid var(--muted-2);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      margin:20px;
-    }
+  /* Table */
+ table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 1400px; /* match container */
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
 
-    /* Student Records heading (h2) */
-    h2 {
-      margin:0 0 18px;
-      font-size:28px; 
-      font-weight:700;
-      text-align:center;
-      font-family:"Poppins", sans-serif;
-      color:var(--primary-2);
-      letter-spacing:1px;
-    }
+  th, td {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-right: 50px;
+    padding-left: 50px;
+    text-align: center;
+    font-size: 15px;
+    border-bottom: 1px solid #e5e7eb;
+  }
 
-    .top-actions {
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:20px;
-      margin-bottom:14px;
-    }
+  .table-header {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 2fr 2fr 2.5fr 2fr; /* add more proportional space */
+  background: #800020;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px 0;
+  width: 100%;
+  max-width: 1400px; /* match container width */
+  margin: 0 auto;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  animation: fadeIn 0.8s ease forwards;
+  opacity: 0;
+}
 
-    .search-box {
-      padding:8px 14px;
-      border-radius:var(--radius);
-      border:1px solid var(--muted-2);
-      font-size:14px;
-      outline:none;
-      width:220px;
-      background:white;
-      transition:.2s;
-    }
+  tr:nth-child(even) {
+    background-color: #f3f4f6; /* Light grey rows */
+  }
 
-    .search-box:focus {
-      border-color:var(--primary);
-      box-shadow:0 0 6px rgba(90,63,54,.5);
-    }
+  tr:hover {
+    background-color: #f3e6ec; /* Subtle burgundy hover */
+    transition: 0.2s;
+  }
 
-    .btn {
-      padding:8px 14px;
-      border:none;
-      border-radius:var(--radius);
-      cursor:pointer;
-      font-size:13px;
-      font-weight:600;
-      letter-spacing:.3px;
-      transition:all .15s ease-in-out;
-      box-shadow:inset 0 0 0 rgba(255,255,255,0);
-    }
-    .btn:hover { transform:translateY(-2px); }
-    .btn:active { transform:scale(.96); }
+  /* Action Buttons */
+  a {
+    font-weight: 500;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: 0.3s;
+  }
 
-    .btn-add {
-      background:linear-gradient(180deg,var(--primary),var(--primary-2));
-      color:white;
-      box-shadow:0 3px 6px rgba(0,0,0,.2);
-    }
-    .btn-edit {
-      background:linear-gradient(180deg,var(--primary),var(--primary-2));
-      color:white;
-    }
-    .btn-delete {
-      background:linear-gradient(180deg,var(--danger),#7f1010);
-      color:white;
-    }
+  a[href*="update"] {
+    background-color: #6b7280; /* Grey */
+    color: white;
+  }
 
-    .table-wrapper {
-      flex:1;
-      overflow:auto;
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      border:1px solid var(--muted);
-      background:white;
-    }
+  a[href*="update"]:hover {
+    background-color: #4b5563;
+  }
 
-    table {
-      width:100%;
-      border-collapse:collapse;
-      font-size:14px;
-      color:var(--text);
-      table-layout: fixed;
-    }
+  a[href*="delete"] {
+    background-color: #ef4444;
+    color: white;
+  }
 
-    th, td {
-      padding:12px 14px;
-      border:1px solid rgba(0,0,0,.15); /* full border (grid style) */
-      text-align:left;
-      word-wrap: break-word;
-    }
+  a[href*="delete"]:hover {
+    background-color: #dc2626;
+  }
 
-    /* column widths */
-    th:nth-child(1), td:nth-child(1) { width:12%; }   /* ID */
-    th:nth-child(2), td:nth-child(2) { width:20%; }  /* Firstname */
-    th:nth-child(3), td:nth-child(3) { width:20%; }  /* Lastname */
-    th:nth-child(4), td:nth-child(4) { width:25%; }  /* Email */
-    th:nth-child(5), td:nth-child(5) { width:23%; }  /* Action */
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+  }
 
-    th {
-      background:var(--muted-2);
-      color:white;
-      font-weight:600;
-      text-transform:uppercase;
-      font-size:13px;
-      letter-spacing:.5px;
-      position:sticky;
-      top:0;
-      z-index:1;
-    }
+  .pagination a, 
+  .pagination strong, 
+  .pagination span {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    background-color: #800020;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
 
-    tr:nth-child(even) { background:rgba(139,111,101,.08); }
-    tr:hover { background:rgba(115,87,78,.15); }
+  .pagination a:hover {
+    background-color: #a83246;
+  }
 
-    /* Action buttons layout */
-    td.actions { text-align: center; }
-    td.actions .btn {
-      min-width:70px;
-      font-size:12px;
-      padding:6px 10px;
-      margin:0 4px;
-    }
+  .pagination strong {
+    background-color: #4b1c2f;
+    cursor: default;
+  }
 
-    /* Pagination styling */
-    .pagination {
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:8px;
-      padding:14px 0;
-      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+  .pagination span {
+    background-color: #9ca3af;
+    color: #f3f4f6;
+    cursor: not-allowed;
+  }
 
-    .pagination ul {
-      list-style:none;     /* tanggal dots */
-      display:flex;
-      gap:8px;
-      padding:0;
-      margin:0;
-    }
+  /* Table Header Div */
+.table-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 2fr 2fr 2fr;
+  background: #800020; /* Burgundy */
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+  padding: 25px 0;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  animation: fadeIn 0.8s ease forwards;
+  opacity: 0;
+}
 
-    .pagination li {
-      list-style:none;     /* siguradong walang bullets */
-    }
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    .pagination a, .pagination span {
-      display:inline-block;
-      min-width:45px;
-      text-align:center;
-      padding:10px 16px;
-      text-decoration:none;
-      color:white;
-      background:linear-gradient(180deg, var(--primary), var(--primary-2));
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      transition:all .15s ease-in-out;
-      cursor:pointer;
-    }
-
-    .pagination a:hover {
-      opacity:.9;
-      transform:translateY(-2px);
-    }
-
-    .pagination .active {
-      background:linear-gradient(180deg, var(--primary-2), var(--primary));
-      cursor:default;
-    }
-
-    .pagination .disabled {
-      background-color:var(--muted-2);
-      cursor:not-allowed;
-      box-shadow:none;
-    }
-
-    @media (max-width:600px) {
-      .search-box { width:140px; }
-      th, td { font-size:12px; }
-    }
   </style>
-
-
-
 </head>
 <body>
-  <div class="card">
-    <h2>Student Records</h2>
+  <div class="container">
+    <!-- Header with Title + Search + Add -->
+    <div class="header">
+      <h2>Student's Information</h2>
+      <div class="actions">
+        <div class="search-box">
+          <form method="get" action="">
+            <input type="text" id="searchInput" name="search" placeholder="Search student...">
+          </form>
+        </div>
+        <a href="<?=site_url('create')?>"><button class="btn-add">+ Add Student</button></a>
+      </div>
+    </div>
 
-   <div class="top-actions">
-  <!-- Left: Add Student Button -->
-  <a href="<?=site_url('create')?>"><button class="btn btn-add">+ Add Student</button></a>
 
-  <!-- Right: Search Bar -->
-  <input type="text" id="searchInput" class="search-box" placeholder="🔍 Search students...">
+
+  <!-- Student Table Header -->
+<div class="table-header">
+  <div class="id">Profile Pic </div>
+  <div class="id">ID</div>
+  <div class="id">First Name</div>
+  <div class="id">Last Name</div>
+  <div class="id">Email</div>
+  <div class="id">Actions</div>
 </div>
 
-
-
-    <table id="studentTable"> 
+<!-- Student Table -->
+<table id="studentTable">
+  <tbody>
+    <?php foreach($students as $students): ?>
       <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Actions</th>
-      </tr>
-      
-      <?php foreach($students as $students): ?>
-        <tr>
-          <td><?=$students['id']; ?></td>
-          <td><?=htmlspecialchars($students['first_name']); ?></td>
-          <td><?=htmlspecialchars($students['last_name']); ?></td>
-          <td><?=htmlspecialchars($students['email']); ?></td>
           <td>
-            <a href="<?=site_url('/update/'.$students['id']); ?>" class="btn btn-edit">Edit</a>
-            <a href="<?=site_url('/delete/'.$students['id']); ?>" class="btn btn-delete"
-               onclick="return confirm('Are you sure you want to delete this record?');">
-               Delete
-            </a>
-          </td>
-        </tr>
-      <?php endforeach; ?>
-    </table>
+            <?php if (!empty($students['profile_pic'])): ?>
+              <img src="/upload/students/<?= $students['profile_pic'] ?>" 
+                  alt="Profile" width="60" height="60" style="border-radius:50%;">
+            <?php else: ?>
+              <img src="/upload/default.png" 
+                  alt="No Profile" width="60" height="60" style="border-radius:50%;">
+            <?php endif; ?>
+          </td> 
+
+        <td><?=$students['id']; ?></td>
+        <td><?=$students['first_name']; ?></td>
+        <td><?=$students['last_name']; ?></td>
+        <td><?=$students['email']; ?></td>
+        <td >
+          <a href="<?=site_url('/update/'.$students['id']); ?>">Update</a> 
+          <a href="<?=site_url('/delete/'.$students['id']); ?>" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
+        </td>
+      </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <?= isset($pagination_links) ? $pagination_links : '' ?>
+    </div>
   </div>
 
-  <div class="pagination">
-    <?= isset($pagination_links) ? $pagination_links : '' ?>
-  </div>
-   <script>
+  <script>
 let typingTimer;
 document.getElementById("searchInput").addEventListener("keyup", function() {
   clearTimeout(typingTimer);
@@ -284,6 +330,5 @@ document.getElementById("searchInput").addEventListener("keyup", function() {
   }, 300); // debounce 300ms to avoid too many requests
 });
 </script>
-
 </body>
 </html>

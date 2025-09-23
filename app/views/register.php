@@ -6,7 +6,7 @@
   <title>Register</title>
 <style>
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #3e2c23, #5a4033); /* Espresso to Mocha */
     display: flex;
     justify-content: center;
@@ -15,6 +15,7 @@
     position: relative;
     overflow: hidden;
     min-height: 100vh;
+    color: #2c1d19; /* text */
   }
 
   body::before, body::after {
@@ -22,14 +23,14 @@
     position: absolute;
     border-radius: 50%;
     filter: blur(120px);
-    opacity: 0.5;
+    opacity: 0.55;
     z-index: 0;
   }
 
   body::before {
     width: 500px;
     height: 500px;
-    background: #7b5e57; /* Latte glow */
+    background: #73574e; /* primary glow */
     top: -60px;
     left: -120px;
   }
@@ -37,7 +38,7 @@
   body::after {
     width: 450px;
     height: 450px;
-    background: #2c1b13; /* Dark espresso */
+    background: #5a3f36; /* darker primary */
     bottom: -80px;
     right: -100px;
   }
@@ -45,70 +46,74 @@
   .form-container {
     width: 100%;
     max-width: 400px;
-    background: #f5ede6; /* Creamy latte */
-    border-radius: 12px;
+    background: linear-gradient(180deg, #e0d6d2, #c7b7b1); /* latte + muted */
+    border-radius: 16px;
     padding: 35px 30px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    box-shadow: 0 10px 25px rgba(0,0,0,.3);
     z-index: 1;
     animation: fadeIn 0.8s ease forwards;
     opacity: 0;
+    border: 1px solid rgba(0,0,0,.08);
   }
 
   h2 {
     text-align: center;
     margin-bottom: 20px;
-    font-size: 26px;
-    font-weight: 700;
-    color: #5a4033; /* Mocha brown */
+    font-size: clamp(22px,3vw,28px);
+    font-weight: 600;
+    color: #73574e;
   }
 
   label {
     display: block;
     margin-bottom: 6px;
-    font-weight: 600;
-    font-size: 14px;
-    color: #3e2c23;
+    font-weight: 500;
+    font-size: 13px;
+    color: #4a322d;
   }
 
   input {
     width: 100%;
     padding: 12px 14px;
     margin-bottom: 18px;
-    border: 1px solid #c2b2a6;
-    border-radius: 6px;
-    font-size: 15px;
-    background: #faf6f2; /* Light latte */
+    border: 1px solid #8b6f65;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #a89288;
+    color: #2c1d19;
     outline: none;
     transition: 0.3s;
   }
 
   input:focus {
-    border-color: #7b5e57;
+    border-color: #5a3f36;
     background: #fff;
-    box-shadow: 0 0 6px rgba(91,64,51,0.3);
+    outline: 2px solid #73574e;
+    box-shadow: 0 0 6px rgba(115,87,78,0.3);
   }
 
   button {
     width: 100%;
     padding: 12px;
-    background: #5a4033; /* Mocha */
+    background: linear-gradient(180deg,#73574e,#5a3f36); /* mocha blend */
     color: white;
     font-size: 16px;
     font-weight: 600;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     transition: 0.3s;
     box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    min-width: 120px;
   }
 
   button:hover {
-    background: #7b5e57; /* Latte brown */
+    opacity: .9;
     transform: translateY(-2px);
   }
 
   .error {
-    color: #b33c2e; /* Reddish brown */
+    color: #b33c2e; /* warm reddish brown */
     text-align: center;
     margin-bottom: 10px;
     font-size: 14px;
@@ -122,7 +127,7 @@
   }
 
   p a {
-    color: #5a4033;
+    color: #73574e;
     font-weight: 600;
     text-decoration: none;
   }
@@ -137,6 +142,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 </style>
+
 
 
 </head>

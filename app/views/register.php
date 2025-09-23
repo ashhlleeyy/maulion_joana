@@ -7,7 +7,7 @@
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #3e2c20, #5c4033); /* Dark brown gradient */
+    background: linear-gradient(135deg, #3e2c23, #5a4033); /* Espresso to Mocha */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,14 +22,14 @@
     position: absolute;
     border-radius: 50%;
     filter: blur(120px);
-    opacity: 0.55;
+    opacity: 0.5;
     z-index: 0;
   }
 
   body::before {
     width: 500px;
     height: 500px;
-    background: #4e2a1e; /* Dark brown glow */
+    background: #7b5e57; /* Latte glow */
     top: -60px;
     left: -120px;
   }
@@ -37,7 +37,7 @@
   body::after {
     width: 450px;
     height: 450px;
-    background: #8b5e3c; /* Light brown */
+    background: #2c1b13; /* Dark espresso */
     bottom: -80px;
     right: -100px;
   }
@@ -45,10 +45,10 @@
   .form-container {
     width: 100%;
     max-width: 400px;
-    background: #ffffff;
+    background: #f5ede6; /* Creamy latte */
     border-radius: 12px;
     padding: 35px 30px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
     z-index: 1;
     animation: fadeIn 0.8s ease forwards;
     opacity: 0;
@@ -59,7 +59,7 @@
     margin-bottom: 20px;
     font-size: 26px;
     font-weight: 700;
-    color: #4e2a1e; /* Dark brown */
+    color: #5a4033; /* Mocha brown */
   }
 
   label {
@@ -67,31 +67,31 @@
     margin-bottom: 6px;
     font-weight: 600;
     font-size: 14px;
-    color: #333;
+    color: #3e2c23;
   }
 
   input {
     width: 100%;
     padding: 12px 14px;
     margin-bottom: 18px;
-    border: 1px solid #9ca3af;
+    border: 1px solid #c2b2a6;
     border-radius: 6px;
     font-size: 15px;
-    background: #f9fafb;
+    background: #faf6f2; /* Light latte */
     outline: none;
     transition: 0.3s;
   }
 
   input:focus {
-    border-color: #8b5e3c;
+    border-color: #7b5e57;
     background: #fff;
-    box-shadow: 0 0 6px rgba(139,94,60,0.3);
+    box-shadow: 0 0 6px rgba(91,64,51,0.3);
   }
 
   button {
     width: 100%;
     padding: 12px;
-    background: #4e2a1e; /* Dark brown */
+    background: #5a4033; /* Mocha */
     color: white;
     font-size: 16px;
     font-weight: 600;
@@ -103,12 +103,12 @@
   }
 
   button:hover {
-    background: #8b5e3c; /* Light brown hover */
+    background: #7b5e57; /* Latte brown */
     transform: translateY(-2px);
   }
 
   .error {
-    color: #8b0000; /* Deep red for errors */
+    color: #b33c2e; /* Reddish brown */
     text-align: center;
     margin-bottom: 10px;
     font-size: 14px;
@@ -118,10 +118,11 @@
     text-align: center;
     margin-top: 15px;
     font-size: 14px;
+    color: #3e2c23;
   }
 
   p a {
-    color: #4e2a1e;
+    color: #5a4033;
     font-weight: 600;
     text-decoration: none;
   }
@@ -136,6 +137,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 </style>
+
 
 </head>
 <body>
